@@ -3,7 +3,6 @@
 ¿Viste la radio de hip hop lo-fi en YouTube? Vamos a montar eso en un Raspberry Pi.
 
 ![Lo-fi Girl por CJ_Camba](lofigirl-por-cj_camba.jpg)
-
 _Lo-fi Girl cortesía de [@CJ_Camba](https://twitter.com/cj_camba/)_
 
 ## ¿Qué necesitamos?
@@ -34,7 +33,7 @@ Este artículo está inspirado en un [thread del foro de Open Broadcast Studio](
 
 Es una computadora para hobistas con procesador ARM (la misma arquitectura que usa la mayoría de los celulares Android) del tamaño de un paquete de cigarrillos.
 
-Hay una docena de modelos distintos, pero el más común (RPi 3 Model B+) sale 35 dólares, tiene cuatro núcleos, 1GB de RAM, lectora de tarjetas MicroSD, cuatro puertos USB, WiFi, Bluetooth, Ethernet, salida HDMI y jack de audio de 3.5mm que además funciona como salida de video analógico. Aparte tiene 40 pines GPIO para conectar componentes electrónicos. Se alimenta por puerto MicroUSB igual que un celular, y consume 2A andando al 100%.
+Hay una docena de modelos distintos, pero el más común (RPi 3 Model B+) sale 35 dólares, tiene cuatro núcleos, 1GB de RAM, lectora de memorias MicroSD, cuatro puertos USB, WiFi, Bluetooth, Ethernet, salida HDMI y jack de audio de 3.5mm que además funciona como salida de video analógico. Aparte tiene 40 pines GPIO para conectar componentes electrónicos. Se alimenta por puerto MicroUSB igual que un celular, y consume 2A andando al 100%.
 
 Esto último está bueno porque podemos tener un RPi transmitiendo 24/7 sin que nos arranquen la cabeza con la boleta de luz.
 
@@ -67,69 +66,65 @@ Conviene instalar algún software de administración remota para poder controlar
 
 Xrdp no necesita configuración: nos conectamos con Escritorio Remoto a la IP del RPi con el usuario "pi" y la clave que hayamos ingresado en el configurador (por defecto, "raspberry"), y listo.
 
-## Paso 2: OBS
+## Paso 2: Compilar OBS
 
-Vamos a compilar OBS con sus dependencias. Creamos un directorio temporal y clonamos y corremos este mismo repo. Si todo va bien después podemos eliminar el directorio, que va a terminar ocupando 1+ GB.
+Vamos a compilar OBS con sus dependencias, así que clonamos y corremos este mismo repo. Si todo se instala correctamente, después podemos eliminar el directorio RaspiRadio, que va a contener 1+ GB de código fuente.
 
-	git clone https://github.com/LeandroBarone/raspiradio/
-	cd raspiradio
+	git clone https://github.com/LeandroBarone/RaspiRadio/
+	cd RaspiRadio
 	bash run.sh
 
  Nos tenemos que armar de paciencia porque este proceso lleva un par de horas.
 
-## Paso 4: Configurar OBS
+## Paso 3: Configurar OBS
 
-Si todo va bien, la primera vez que iniciemos OBS nos va a ofrecer un wizard de configuración, pero vamos a cancelarlo y configurar todo manualmente.
+La primera vez que iniciemos OBS nos va a ofrecer un wizard de configuración, pero vamos a cancelarlo y configurar todo manualmente.
 
-Primero necesitamos la clave de transmisión de nuestro canal. Entramos a YouTube, nos logueamos en la cuenta desde donde queremos transmitir, tocamos el botón "crear" de arriba a la derecha y seleccionamos "emitir en directo". Desde esta ventana podemos escribir un título y una descripción para nuestra emisión. En el apartado "clave de emisión" seleccionamos "default stream key (variable)" y copiamos la clave de emisión que se generó.
+Primero necesitamos la clave de transmisión de nuestro canal. Entramos a YouTube, nos logueamos en la cuenta desde la que queremos transmitir, tocamos el botón "crear" de arriba a la derecha y seleccionamos "emitir en directo". Desde esta ventana podemos escribir un título y una descripción para nuestra emisión. En el apartado "clave de emisión" seleccionamos "default stream key (variable)" y copiamos la clave de emisión que se generó.
 
 Cada vez que queramos iniciar una transmisión tenemos que abrir esta ventana, pero la clave va a ser siempre la misma.
 
 Vamos a OBS y tocamos en "settings" abajo a la derecha. Acá vamos a configurar nuestra transmisión para que consuma la menor cantidad de recursos posible. Las opciones son bastante intuitivas, así que vamos a repasar lo más importante, pestaña por pestaña.
 
 - En "general" no es necesario tocar nada.
-
 - En "stream" seleccionamos el servicio YouTube RTMP, pegamos la clave de transmisión que obtuvimos más arriba, tildamos "ignore straming service setting recommendations" y aceptamos la advertencia.
-
 - En "output" activamos el modo avanzado, seleccionamos el encoder x264, rate control CBR, bitrate 1000 Kbps, y nos aseguramos que profile diga "(none)". Luego vamos a la solapa de audio y bajamos el bitrate a 128 Kbps.
-
 - En "audio" bajamos el sample rate a 44.1 kHz.
-
 - En "video" configuramos ambas resoluciones a 1280x720, seleccionamos "integer FPS value" en el menú desplegable y configuramos 10 FPS o menos. Cuanto más bajo, mejor: una radio puede funcionar perfectamente a 2 FPS.
 
-## Diseñar una escena
+## Paso 4: Diseñar una escena
 
-Esto no es un tutorial de OBS, así que vamos a agregar rápidamente un puñado de medios de prueba a nuestra escena.
+Esto tampoco es un tutorial de OBS, así que simplemente vamos a agregar un puñado de medios de prueba a nuestra escena. En YouTube y Google hay información de sobra para aprender a usar OBS.
 
 Descargamos un par de temas mp3 de Internet y los ponemos en un directorio cualquiera, como ~/Music. En OBS, apartado "sources", tocamos el signo "+" y agregamos un "VLC Video Source". En su configuración tildamos "loop playlist" y "shuffle playlist". En el apartado "playlist" tocamos el signo "+", seleccionamos "add directory" y elegimos nuestro directorio con música.
 
-Descargamos un wallpaper de Internet y lo agregamos como "image".
+Descargamos un wallpaper y lo agregamos como "image".
 
 Descargamos un GIF animado y lo agregamos como "media source".
 
 Por último, agregamos un "Text (FreeType 2)" y escribimos el título de nuestra radio.
 
-Ahora nos encomendamos a el o los dioses de nuestra preferencia, nos aseguramos de tener abierta la ventana de "emitir en directo" en YouTube, y en OBS apretamos "start streaming". Unos segundos después deberíamos ver nuestra transmisión en YouTube (por defecto está muteada).
+Ahora nos encomendamos a el o los dioses de nuestra preferencia, nos aseguramos de tener abierta la ventana de "emitir en directo" en YouTube, y en OBS apretamos "start streaming". Unos segundos después deberíamos ver nuestra transmisión en YouTube (que por defecto está muteada).
 
 Buen trabajo.
 
 _ruido_de_cerveza.wav_
 
-## Configurar Tuna
+## Paso 5: Configurar Tuna
 
-Tuna es un plugin de OBS que extrae los meta tags (título, artista, etc.) del tema que está sonando actualmente en nuestro VLC Video Source y los graba en archivos de texto. La configuración es un quilombo, pero por suerte hay que hacerlo una sola vez.
+Tuna es un plugin de OBS que extrae los meta tags (título, artista, etc.) del tema que está sonando actualmente en nuestro VLC Video Source y los graba en archivos de texto. La configuración es un lío, pero por suerte hay que hacerla una sola vez.
 
 Con nuestra escena reproduciendo música en OBS, vamos a "Tools" en la barra de menú superior y tocamos "Tuna settings".
 
-En la solapa "Basics" vamos a configurar los archivos de texto que se van a generar cada vez que suene un tema en nuestro VLC Video Source. Tocamos "add new". En "song info path" especificamos un archivo de texto (por ejemplo, ~/artista.txt), y en la segunda caja de texto configuramos los meta tags que se van a guardar usando los parámetros que aparecen en el texto de ayuda. Por ejemplo, el artista es %m.
+En la solapa "Basics" vamos a configurar los archivos de texto (uno por cada meta tag) que se van a generar cada vez que suene un tema en nuestro VLC Video Source. Tocamos "add new". En "song info path" especificamos un archivo de texto (por ejemplo, ~/artista.txt), y en la segunda caja de texto configuramos la información que se van a guardar usando los parámetros que aparecen en el texto de ayuda. Por ejemplo, el meta tag artista es %m.
 
 Creamos otros archivos de texto para el título, el album, etcétera.
 
-Cuando terminamos, vamos a la solapa "VLC" y elegimos el nombre de nuestro VLC Video Source en el menú desplegable.
+Cuando terminamos vamos a la solapa "VLC" y elegimos el nombre de nuestro VLC Video Source en el menú desplegable.
 
 Finalmente volvemos a "Basics" y abajo de todo apretamos el botón "start" para iniciar la generación automática de archivos de texto.
 
-Nos fijamos que los archivos se estén generando correctamente, y luego en OBS creamos un "Text (FreeType 2)", tildamos "read from file" y seleccionamos uno de los archivos de texto. Repetimos esto por cada meta tag.
+Nos fijamos que los archivos se estén generando bien, y si están O.K., en OBS creamos un "Text (FreeType 2)", tildamos "read from file" y seleccionamos uno de los archivos de texto. Repetimos esto por cada meta tag.
 
 ## To do
 
