@@ -27,7 +27,7 @@ Pero evitemos complicarnos la vida.
 
 El estándar de facto es Open Broadcast Studio, un software de código abierto para armar transmisiones en vivo a través de una interfaz gráfica, que hace todo lo que necesitamos y más. OBS tiene un ecosistema enorme de plugins para integrar todo tipo de medios a nuestra transmisión: desde webcams hasta feeds de Twitter. Por desgracia OBS no es compatible con RPi ni hay interés en que lo sea, así que vamos a tener que compilar todo desde cero.
 
-Este artículo está inspirado en un [thread del foro de Open Broadcast Studio](https://obsproject.com/forum/threads/obs-raspberry-pi-build-instructions.115739/), que fue el primer y último intento serio de correr OBS en un RPi hasta ahora. Los scripts están basados en el trabajo de [Xbelanch](https://github.com/xbelanch/OBS4Pi).
+Este artículo fue escrito originalmente para proponerlo a la revista [ATDT Magazine](https://www.facebook.com/atdtzine/) y está inspirado en un [thread del foro de Open Broadcast Studio](https://obsproject.com/forum/threads/obs-raspberry-pi-build-instructions.115739/), que fue el primer y último intento serio de correr OBS en un RPi hasta ahora. Los scripts están basados en el trabajo de [Xbelanch](https://github.com/xbelanch/OBS4Pi).
 
 ## ¿Qué onda el Raspberry Pi?
 
@@ -103,13 +103,13 @@ _ruido_de_cerveza.wav_
 
 ## Paso 5: Configurar Tuna
 
-Tuna es un plugin de OBS que extrae los meta tags (título, intérprete, etc.) de la canción que está sonando actualmente en nuestro VLC Video Source y los graba en archivos de texto. La configuración es un lío, pero por suerte hay que hacerla una sola vez.
+Tuna es un plugin de OBS que extrae los meta tags (título, intérprete, etc.) de la canción que está sonando en nuestro VLC Video Source y los graba en archivos de texto. Necesitamos eso para agregarlos a nuestra escena. La configuración es un lío, pero por suerte hay que hacerla una sola vez.
 
 Con nuestra escena reproduciendo música en OBS, vamos a "Tools" en la barra de menú superior y tocamos "Tuna settings".
 
-En la solapa "Basics" vamos a configurar los archivos de texto (uno por cada meta tag) que se van a generar cada vez que suene un tema en nuestro VLC Video Source. Tocamos "add new". En "song info path" especificamos un archivo de texto (por ejemplo, ~/artist.txt), y en la segunda caja de texto configuramos la información que se van a guardar usando los parámetros que aparecen en el texto de ayuda. Por ejemplo, el meta tag del intérprete es %m.
+En la solapa "Basics" vamos a configurar los archivos de texto (uno por cada meta tag) que se van a generar cada vez que suene un tema en nuestro VLC Video Source. Tocamos "add new". En "song info path" especificamos una ruta para el archivo de texto (por ejemplo, ~/artist.txt) y en la segunda caja de texto configuramos la información que se va a guardar usando los parámetros que aparecen en el texto de ayuda. Por ejemplo, el tag del ntérprete es %m.
 
-Creamos otros archivos de texto para el título, el album, etcétera.
+Creamos otros archivos de texto para el título, el álbum, etcétera.
 
 Cuando terminamos vamos a la solapa "VLC" y elegimos el nombre de nuestro VLC Video Source en el menú desplegable.
 
