@@ -1,6 +1,7 @@
 echo 'Clonando y compilando FFMpeg...'
 git clone --depth 1 https://github.com/FFmpeg/FFmpeg
 cd FFmpeg
+git reset 8331eb058d884897aca2ef62ac9b98b536caec6e --hard
 ./configure \
 	--extra-cflags="-I/usr/local/include" \
 	--extra-ldflags="-L/usr/local/lib -latomic" \

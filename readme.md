@@ -19,7 +19,7 @@ Y además...
 
 ## ¿Qué tiene este proyecto de especial?
 
-Transmitir por Internet no es difícil: si solamente quisiéramos pasar música o videos podríamos instalar FFMpeg (un software de línea de comandos para manipular pistas de audio y video) y configurar una transmisión en cinco minutos. Pero las radios de YouTube son más complejas: muestran el nombre del artista y el título del tema que está sonando, combinan imágenes y GIFs animados, reproducen canales de chat de Discord, muestran notificaciones animadas de suscripción, etcétera.
+Transmitir por Internet no es difícil: si solamente quisiéramos pasar música o videos podríamos instalar FFMpeg (un software de línea de comandos para manipular pistas de audio y video) y configurar una transmisión en cinco minutos. Pero las radios de YouTube son más complejas: muestran el nombre del intérprete y el título del tema que está sonando, combinan imágenes y GIFs animados, reproducen canales de chat de Discord, muestran notificaciones animadas de suscripción, etcétera.
 
 Para armar algo así tenemos varias opciones interesantes: podríamos desarrollar una interfaz con nuestro lenguaje favorito y configurar FFMpeg para capturar la ventana y transmitirla, o podríamos armar una aplicación web para aprovechar las capacidades gráficas del browser. Incluso podríamos ponernos retro y armar una interfaz de línea de comandos que vaya imprimiendo sucesivamente los textos que queremos mostrar.
 
@@ -53,9 +53,13 @@ https://www.raspberrypi.org/software/
 
 En el menú desplegable "Choose OS" elegimos la última opción, "use custom", y elegimos la siguiente imagen. Necesitamos esta versión específica porque el códec x264 no compila bien en la más reciente:
 
+En el menú desplegable "Choose OS" elegimos la primera opción, "Raspberry Pi OS", y lo grabamos en la memoria MicroSD.
+
 https://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/
 
-La primera vez que booteamos Raspbian nos muestra un configurador que no tiene nada raro: elegimos el idioma, nos conectamos a Internet por WiFi o Ethernet, y listo.
+La primera vez que booteamos Raspbian nos muestra un configurador que no tiene nada raro: elegimos el idioma, le ponemos clave al usuario root (que acá se llama "pi"), nos conectamos a Internet por WiFi o Ethernet, y listo.
+
+El configurador nos ofrece actualizar el sistema operativo, que es un proceso que lleva más de una hora. Siempre podemos dejarlo para más adelante.
 
 ¡¡¡Ojo!!! No apliques las actualizaciones que te ofrece el configurador. Corrés el riesgo de que te rompa la compatibilidad con x264.
 
@@ -78,7 +82,7 @@ Vamos a compilar OBS con sus dependencias, así que clonamos y corremos este mis
 
 ## Paso 3: Configurar OBS
 
-La primera vez que iniciemos OBS nos va a ofrecer un wizard de configuración, pero vamos a cancelarlo y configurar todo manualmente.
+La primera vez que iniciemos OBS nos va a abrir un configurador, pero vamos a cancelarlo y configurar todo manualmente.
 
 Primero necesitamos la clave de transmisión de nuestro canal. Entramos a YouTube, nos logueamos en la cuenta desde la que queremos transmitir, tocamos el botón "crear" de arriba a la derecha y seleccionamos "emitir en directo". Desde esta ventana podemos escribir un título y una descripción para nuestra emisión. En el apartado "clave de emisión" seleccionamos "default stream key (variable)" y copiamos la clave de emisión que se generó.
 
@@ -112,19 +116,19 @@ _ruido_de_cerveza.wav_
 
 ## Paso 5: Configurar Tuna
 
-Tuna es un plugin de OBS que extrae los meta tags (título, artista, etc.) del tema que está sonando actualmente en nuestro VLC Video Source y los graba en archivos de texto. La configuración es un lío, pero por suerte hay que hacerla una sola vez.
+Tuna es un plugin de OBS que extrae los meta tags (título, intérprete, etc.) de la canción que está sonando actualmente en nuestro VLC Video Source y los graba en archivos de texto. La configuración es un lío, pero por suerte hay que hacerla una sola vez.
 
 Con nuestra escena reproduciendo música en OBS, vamos a "Tools" en la barra de menú superior y tocamos "Tuna settings".
 
-En la solapa "Basics" vamos a configurar los archivos de texto (uno por cada meta tag) que se van a generar cada vez que suene un tema en nuestro VLC Video Source. Tocamos "add new". En "song info path" especificamos un archivo de texto (por ejemplo, ~/artista.txt), y en la segunda caja de texto configuramos la información que se van a guardar usando los parámetros que aparecen en el texto de ayuda. Por ejemplo, el meta tag artista es %m.
+En la solapa "Basics" vamos a configurar los archivos de texto (uno por cada meta tag) que se van a generar cada vez que suene un tema en nuestro VLC Video Source. Tocamos "add new". En "song info path" especificamos un archivo de texto (por ejemplo, ~/artist.txt), y en la segunda caja de texto configuramos la información que se van a guardar usando los parámetros que aparecen en el texto de ayuda. Por ejemplo, el meta tag del intérprete es %m.
 
 Creamos otros archivos de texto para el título, el album, etcétera.
 
 Cuando terminamos vamos a la solapa "VLC" y elegimos el nombre de nuestro VLC Video Source en el menú desplegable.
 
-Finalmente volvemos a "Basics" y abajo de todo apretamos el botón "start" para iniciar la generación automática de archivos de texto.
+Por último volvemos a "Basics", tocamos "song source", elegimos "VLC", y abajo de todo apretamos el botón "start" para iniciar la generación automática de archivos de texto.
 
-Nos fijamos que los archivos se estén generando bien, y si están O.K., en OBS creamos un "Text (FreeType 2)", tildamos "read from file" y seleccionamos uno de los archivos de texto. Repetimos esto por cada meta tag.
+Nos fijamos que los archivos se estén generando (vamos a tener que cambiar de canción para que se generen), y si están bien, en OBS creamos un "Text (FreeType 2)", tildamos "read from file" y seleccionamos uno de los archivos de texto. Repetimos esto por cada meta tag que queremos agregar a nuestra escena.
 
 ## To do
 
