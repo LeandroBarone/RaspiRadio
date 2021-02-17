@@ -45,40 +45,28 @@ Vamos a compilar OBS y un puñado de dependencias. Como el RPi no tiene ninguna 
 
 ## Paso 1: Armar el Raspberry Pi
 
-Esto no es un tutorial sobre RPi, así que vamos a hacerla corta: bajamos una imagen específica de Raspbian, la distro oficial de Linux, y la quemamos en una MicroSD de 8+ GB usando Raspberry Pi Imager (disponible para Windows, MacOS y Ubuntu). Hay tutoriales para esto en el sitio oficial.
+Esto no es un tutorial sobre RPi, así que vamos a hacerla corta: bajamos [Raspberry Pi Imager](https://www.raspberrypi.org/software/) (disponible para Windows, MacOS y Ubuntu) y grabamos Raspberry Pi OS en una MicroSD de 8+ GB (mejor 16+ GB, así tenemos espacio para la música). Hay tutoriales para esto en el sitio oficial.
 
-Link de descarga de Raspberry Pi Imager:
+La primera vez que booteamos Raspberry Pi OS nos muestra un configurador bastante estándar: elegimos el idioma, le ponemos clave al usuario root (que acá se llama "pi"), nos conectamos a Internet por WiFi o Ethernet y listo.
 
-https://www.raspberrypi.org/software/
+El configurador nos ofrece actualizar el sistema operativo, que es un proceso que puede llevar más de una hora. Podemos dejarlo para más adelante.
 
-En el menú desplegable "Choose OS" elegimos la última opción, "use custom", y elegimos la siguiente imagen. Necesitamos esta versión específica porque el códec x264 no compila bien en la más reciente:
-
-En el menú desplegable "Choose OS" elegimos la primera opción, "Raspberry Pi OS", y lo grabamos en la memoria MicroSD.
-
-https://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/
-
-La primera vez que booteamos Raspbian nos muestra un configurador que no tiene nada raro: elegimos el idioma, le ponemos clave al usuario root (que acá se llama "pi"), nos conectamos a Internet por WiFi o Ethernet, y listo.
-
-El configurador nos ofrece actualizar el sistema operativo, que es un proceso que lleva más de una hora. Siempre podemos dejarlo para más adelante.
-
-¡¡¡Ojo!!! No apliques las actualizaciones que te ofrece el configurador. Corrés el riesgo de que te rompa la compatibilidad con x264.
-
-Conviene instalar algún software de administración remota para poder controlar el RPi desde nuestra PC. Por ejemplo, podemos instalarle xrdp, un servidor de Escritorio Remoto para Windows:
+Conviene instalar algún software de administración remota para poder controlar el RPi desde nuestra PC. Por ejemplo, podemos instalarle xrdp, que es un servidor de Escritorio Remoto:
 
 	sudo apt-get update
 	sudo apt-get install xrdp
 
-Xrdp no necesita configuración: nos conectamos con Escritorio Remoto a la IP del RPi con el usuario "pi" y la clave que hayamos ingresado en el configurador (por defecto, "raspberry"), y listo.
+Xrdp no necesita configuración: nos conectamos con Escritorio Remoto a la IP del RPi con el usuario "pi" y la clave que hayamos ingresado en el configurador (por defecto, "raspberry") y listo.
 
 ## Paso 2: Compilar OBS
 
-Vamos a compilar OBS con sus dependencias, así que clonamos y corremos este mismo repo. Si todo se instala correctamente, después podemos eliminar el directorio RaspiRadio, que va a contener 1+ GB de código fuente.
+Vamos a compilar OBS con sus dependencias, así que clonamos y corremos este mismo repo. Si todo se instala correctamente, después podemos eliminar el directorio RaspiRadio que se creó, porque va a tener 1+ GB de código fuente.
 
 	git clone https://github.com/LeandroBarone/RaspiRadio/
 	cd RaspiRadio
 	bash run.sh
 
- Nos tenemos que armar de paciencia porque este proceso lleva un par de horas.
+Nos tenemos que armar de paciencia porque este proceso lleva un par de horas.
 
 ## Paso 3: Configurar OBS
 
@@ -90,7 +78,6 @@ Cada vez que queramos iniciar una transmisión tenemos que abrir esta ventana, p
 
 Vamos a OBS y tocamos en "settings" abajo a la derecha. Acá vamos a configurar nuestra transmisión para que consuma la menor cantidad de recursos posible. Las opciones son bastante intuitivas, así que vamos a repasar lo más importante, pestaña por pestaña.
 
-- En "general" no es necesario tocar nada.
 - En "stream" seleccionamos el servicio YouTube RTMP, pegamos la clave de transmisión que obtuvimos más arriba, tildamos "ignore straming service setting recommendations" y aceptamos la advertencia.
 - En "output" activamos el modo avanzado, seleccionamos el encoder x264, rate control CBR, bitrate 1000 Kbps, y nos aseguramos que profile diga "(none)". Luego vamos a la solapa de audio y bajamos el bitrate a 128 Kbps.
 - En "audio" bajamos el sample rate a 44.1 kHz.
@@ -108,7 +95,7 @@ Descargamos un GIF animado y lo agregamos como "media source".
 
 Por último, agregamos un "Text (FreeType 2)" y escribimos el título de nuestra radio.
 
-Ahora nos encomendamos a el o los dioses de nuestra preferencia, nos aseguramos de tener abierta la ventana de "emitir en directo" en YouTube, y en OBS apretamos "start streaming". Unos segundos después deberíamos ver nuestra transmisión en YouTube (que por defecto está muteada).
+Solamente falta probar la transmisión. Nos aseguramos de tener abierta la ventana de "emitir en directo" en YouTube, y en OBS apretamos "start streaming". Unos segundos después deberíamos ver nuestra transmisión en YouTube (que por defecto está muteada).
 
 Buen trabajo.
 
@@ -133,4 +120,4 @@ Nos fijamos que los archivos se estén generando (vamos a tener que cambiar de c
 ## To do
 
 - Iniciar emisión de YouTube por API.
-- Configurar OBS para que se inicie con Raspbian.
+- Configurar OBS para que se inicie al encender el RPi.
