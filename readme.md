@@ -1,6 +1,6 @@
 # Radio en YouTube con Raspberry Pi y OBS
 
-¿Viste la radio de hip hop lo-fi en YouTube? Vamos a montar eso en un Raspberry Pi.
+¿Viste la [radio de hip hop lo-fi en YouTube](https://www.youtube.com/watch?v=5qap5aO4i9A)? Vamos a montar eso en un Raspberry Pi.
 
 ![Lo-fi Girl por CJ_Camba](lofigirl-por-cj_camba.jpg)
 _Lo-fi Girl cortesía de [@CJ_Camba](https://twitter.com/cj_camba/)_
@@ -66,7 +66,7 @@ Vamos a compilar OBS con sus dependencias, así que clonamos y corremos este mis
 	cd RaspiRadio
 	bash run.sh
 
-Nos tenemos que armar de paciencia porque este proceso lleva un par de horas.
+Nos tenemos que armar de paciencia porque este proceso lleva un par de horas. Cuando terminamos no está de más reiniciar el RPi.
 
 ## Paso 3: Configurar OBS
 
