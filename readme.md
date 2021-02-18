@@ -43,6 +43,8 @@ Las posibilidades de una cajita que corre Linux, se conecta con cualquier dispos
 
 Vamos a compilar OBS y un puñado de dependencias. Como el RPi no tiene ninguna capacidad de aceleración gráfica, vamos a correr OBS en modo software, así que olvidémosnos de transmitir en fullHD: vamos a apuntar a 720p a <10 FPS, que para una radio alcanza y sobra. Si necesitamos más rendimiento, hay RPis más potentes, pero son más caros.
 
+El resultado es [algo como esto](https://www.youtube.com/watch?v=BQoe0xttlWw).
+
 ## Paso 1: Armar el Raspberry Pi
 
 Esto no es un tutorial sobre RPi, así que vamos a hacerla corta: bajamos [Raspberry Pi Imager](https://www.raspberrypi.org/software/) (disponible para Windows, MacOS y Ubuntu) y grabamos Raspberry Pi OS en una MicroSD de 8+ GB (mejor 16+ GB, así tenemos espacio para la música). Hay tutoriales para esto en el sitio oficial.
@@ -107,7 +109,7 @@ Tuna es un plugin de OBS que extrae los meta tags (título, intérprete, etc.) d
 
 Con nuestra escena reproduciendo música en OBS, vamos a "Tools" en la barra de menú superior y tocamos "Tuna settings".
 
-En la solapa "Basics" vamos a configurar los archivos de texto (uno por cada meta tag) que se van a generar cada vez que suene un tema en nuestro VLC Video Source. Tocamos "add new". En "song info path" especificamos una ruta para el archivo de texto (por ejemplo, ~/artist.txt) y en la segunda caja de texto configuramos la información que se va a guardar usando los parámetros que aparecen en el texto de ayuda. Por ejemplo, el tag del ntérprete es %m.
+En la solapa "Basics" vamos a configurar los archivos de texto (uno por cada meta tag) que se van a generar cada vez que suene un tema en nuestro VLC Video Source. Tocamos "add new". En "song info path" especificamos una ruta para el archivo de texto (por ejemplo, ~/artist.txt) y en la segunda caja de texto configuramos la información que se va a guardar usando los parámetros que aparecen en el texto de ayuda. Por ejemplo, el tag del intérprete es %m.
 
 Creamos otros archivos de texto para el título, el álbum, etcétera.
 
